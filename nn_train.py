@@ -240,7 +240,7 @@ def NN_one_train(stock, model, ratio = None, node_num = 16, epoch_num = 50,
     q = payoff(stock[-1], model)      # List of continuation values
     convert_in = []     # List of input scaling objects -- MinMaxScaler() 
     convert_out = []    # List of output scaling objects -- MinMaxScaler()
-    if ratio != None:
+    if (ratio != None) and (ratio > 0):
         accum = np.array([]) # Array of in-the-money paths used in training
         len_accum = 0        # Length of 
     
@@ -295,14 +295,14 @@ def NN_one_train(stock, model, ratio = None, node_num = 16, epoch_num = 50,
             NNet.fit(x_, valuefun_train_scaled, epochs = epoch_num, \
                      batch_size = batch_num, verbose = 0)
             
-            if ratio != None:
+            if (ratio != None) and (ratio > 0):
                 len_accum += len(itm)
                 accum = np.append(accum, np.append(x_.transpose(), \
                             valuefun_train_scaled.transpose()).reshape((model['dim'] + 2, \
                             len(itm))).transpose()).reshape((model['dim'] + 2, len_accum), \
                             order = 'F').transpose()
         else:
-            if ratio != None:
+            if (ratio != None) and (ratio > 0):
                 if ratio*len(itm) > len_accum:
                     # Include all the previous data
                     x_val = np.concatenate([accum.transpose()[:-1].transpose(), x_], \
@@ -321,7 +321,7 @@ def NN_one_train(stock, model, ratio = None, node_num = 16, epoch_num = 50,
                 y_val = valuefun_train_scaled
             NNet.fit(x_val, y_val, epochs = epoch_num, batch_size = batch_num, verbose = 0)
             
-            if ratio != None:
+            if (ratio != None) and (ratio > 0):
                 len_accum += len(itm)
                 accum = np.append(accum, np.append(x_.transpose(), \
                             valuefun_train_scaled.transpose()).reshape((model['dim'] + 2, \
