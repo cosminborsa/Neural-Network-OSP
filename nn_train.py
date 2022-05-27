@@ -242,7 +242,7 @@ def NN_one_train(stock, model, ratio = None, node_num = 16, epoch_num = 50,
     convert_out = []    # List of output scaling objects -- MinMaxScaler()
     if (ratio != None) and (ratio > 0):
         accum = np.array([]) # Array of in-the-money paths used in training
-        len_accum = 0        # Length of 
+        len_accum = 0        # Tracks the length of accum 
     
     dim_scaler = MinMaxScaler(feature_range = (0,1))
     dim_train = np.array(list(reversed(range(0,nSteps-1)))).reshape((-1, 1))
