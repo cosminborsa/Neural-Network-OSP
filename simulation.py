@@ -22,7 +22,7 @@ def sim_gbm(x0, model):
     for j in range(model['dim']): # indep coordinates
        newX.append(x0[:,j]*np.exp(np.random.normal(loc = 0, scale = 1, size = length)*
                                  model['sigma'][j]*np.sqrt(dt) +
-            (model['r'] - model['div']- model['sigma'][j]**2/2)*dt))
+            (model['r'] - model['div'][j] - model['sigma'][j]**2/2)*dt))
     return np.reshape(np.ravel(np.array(newX)), (length, model['dim']), order='F')
 
 def stock_sim(nSims, model, start = None):
